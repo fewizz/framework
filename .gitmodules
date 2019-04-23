@@ -1,6 +1,3 @@
-[submodule "lib/glfw"]
-	path = lib/glfw
-	url = https://github.com/glfw/glfw.git
 [submodule "lib/glfw-wrapper"]
 	path = lib/glfw-wrapper
 	url = https://github.com/cpp-wrappers/glfw-wrapper
@@ -13,9 +10,12 @@
 [submodule "lib/openal-soft"]
 	path = lib/openal-soft
 	url = https://github.com/kcat/openal-soft.git
-[submodule "lib/freetype"]
-	path = lib/freetype
-	url = https://git.savannah.gnu.org/git/freetype/freetype2.git
 [submodule "lib/freetype-wrapper"]
 	path = lib/freetype-wrapper
 	url = https://github.com/cpp-wrappers/freetype-wrapper.git
+[submodule "lib/freetype/git"]
+	path = lib/freetype/git
+	url = git://git.savannah.gnu.org/freetype/freetype2.git
+[submodule "lib/glfw/git"]
+	path = lib/glfw/git
+	url = https://github.com/glfw/glfw.git
