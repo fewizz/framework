@@ -2,32 +2,42 @@ mkdir -p build
 
 cd build
 
+rm *
+
 #cmake -DCMAKE_C_COMPILER=$CC ../git
 #cmake --build .
 
-src_files0=\
+src_files=\
 'base/ftsystem '\
 'base/ftinit '\
 'base/ftdebug '\
 'base/ftbase '\
+'base/ftobjs '\
 \
 'base/ftbbox '\
 'base/ftglyph '\
 'base/ftbitmap '\
 \
+'cff/cff '\
 'sfnt/sfnt '\
 'truetype/truetype '\
 \
 'raster/raster '\
 'smooth/smooth '\
 \
+'gzip/ftgzip '\
+'autofit/autofit '\
+'psaux/psaux '\
+'pshinter/pshinter '\
 'psnames/psnames '
 
-for x in ${src_files0}; do src_files="${src_files} ../git/src/${x}.c"; done
-
 ${CC} -c \
-	${src_files} \
+	${CCARGS} \
+	`echo ${src_files} | sed 's/[^ ]\+/..\/git\/src\/&.c /g'` \
 	-I../git/include \
-	-DFT2_BUILD_LIBRARY
+	-I../ \
+	-D FT2_BUILD_LIBRARY \
+	-D FT_CONFIG_OPTIONS_H=\"ftoption.h\" \
+	-D FT_CONFIG_MODULES_H=\"ftmodule.h\"
 
-ar -rs libfreetype.a `find *.o` 
+ar -rs libfreetype.a `ls | sed 's/*.o/&/g'`

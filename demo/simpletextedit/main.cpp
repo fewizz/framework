@@ -18,10 +18,10 @@ int main() {
 	w.make_context_current();
 
 	freetype::library lib;
-	face& f = lib.face_from_istream(
+	face* f = lib.face_from_istream(
 		make_unique<ifstream>(ifstream("OldSchool.ttf", ios_base::binary))
 	);
-	cout << "sytle: " << f.style_name() << "\n";
+	cout << "sytle: " << f->style_name() << "\n";
 	
 	clear_color(1, 0, 0, 1);
 	while(!w.should_close()) {

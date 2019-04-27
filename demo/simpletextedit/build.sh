@@ -9,9 +9,9 @@ pushd $lib_dir/freetype
 bash build.sh
 popd
 
-pushd $lib_dir/freetype-wrapper
-make CXX=$CXX CXXARGS=c++17
-popd
+#pushd $lib_dir/freetype-wrapper
+#make CXX=$CXX CXXARGS=c++17
+#popd
 
 #pushd $lib_dir/opengl-wrapper
 #bash build.sh
@@ -27,7 +27,6 @@ $CXX --std=c++17 \
 -I$lib_dir/opengl-wrapper/src \
 main.cpp \
 $lib_dir/glfw/build/src/libglfw3.a \
-$lib_dir/freetype-wrapper/libfreetype-wrapper.a \
 $lib_dir/freetype/build/libfreetype.a \
 -lOpenGL \
 -lz \
