@@ -1,7 +1,7 @@
 #include "lodepng.h"
 #include <filesystem>
 #include <vector>
-#include "opengl/texture.hpp"
+#include "gl/texture.hpp"
 #include <fstream>
 
 namespace png {

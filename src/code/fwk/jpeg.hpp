@@ -4,7 +4,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
-#include "opengl/texture.hpp"
+#include "gl/texture.hpp"
 #include "unsafe_iostream_operations.hpp"
 
 namespace jpeg {
