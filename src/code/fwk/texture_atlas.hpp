@@ -39,14 +39,14 @@ namespace gfx {
  	public:
 
 		texture_atlas(glm::uvec2 dimension, SlotContainer&& sc)
-		: sc{std::forward(sc)}
+		: sc{std::forward<SlotContainer>(sc)}
 		{
     		image(
         		gl::internal_format::rgba8,
         		dimension[0],
         		dimension[1],
         		gl::pixel_format::rgba,
-        		(void*)nullptr
+        		(uint8_t*)nullptr
     		);
 		}
 
@@ -93,11 +93,11 @@ namespace gfx {
 		std::pair<estd::index, slot>
 		occupy(glm::uvec2 tex_dim) override;
 
-		inline slot get_slot(estd::index id) override {
+		slot get_slot(estd::index id) override {
 			return map[id];
 		};
 
-		inline void free(estd::index id) override {
+		void free(estd::index id) override {
 			ip.free(id);
 		}
 	};

@@ -1,35 +1,50 @@
 #include "glyph_cache.hpp"
 #include "gl/texture.hpp"
+#include "color.hpp"
+#include "math.h"
 
 using namespace std;
-using namespace freetype;
 using namespace gfx;
 using namespace glm;
 
-unique_ptr<uint8_t[]>
-gfx::internal::convert_to_gl_pixel_format(gl::pixel_format pf, glyph_slot& gs) {
-    freetype::bitmap bitmap = gs.get_bitmap();
-    uint w = bitmap.width();
-    uint h = bitmap.rows();
-    uint pitch = bitmap.pitch();
-    auto data = make_unique<uint8_t[]>(w * h * 4);
-    auto data0 = bitmap.data<uint8_t>();
+namespace {
 
-    pixel_mode bm_pm = bitmap.pixel_mode;
+    template<class Fun>
+    unique_ptr<color4ub[]> convert(
+        freetype::bitmap& bitmap,
+        Fun fun
+    ) {
+        uvec2 size = bitmap.size<uvec2>();
+        uint pitch = bitmap.pitch();
+        auto data = make_unique<color4ub[]>(size[0] * size[1] * 4);
+        auto data0 = bitmap.data<uint8_t>();
 
-    for (uint y = 0; y < h; y++) {
-        uint row_beginning = y * pitch;
+        for (uint y = 0; y < size[1]; y++) {
+            uint row_beginning = y * pitch;
 
-        for (uint x = 0; x < w; x++) {
-            uint8_t c = data0[x + row_beginning];
-
-            uint pixel = x + y * w;
-            data[pixel * 4] = 0xFF;
-            data[pixel * 4 + 1] = 0xFF;
-            data[pixel * 4 + 2] = 0xFF;
-            data[pixel * 4 + 3] = c;
+            for (uint x = 0; x < size[0]; x++) {
+                data[y*size[0] + x] = fun(x, data0 + row_beginning);
+            }
         }
+
+        return data;
     }
 
-    return data;
+    unique_ptr<color4ub[]> gray(freetype::bitmap& bm) {
+        return convert(bm, [&](uint x, uint8_t* data) {
+            uint8_t color = data[x];
+            uint8_t final_color = estd::div_ceil(color*255, bm.num_grays());
+            return color4ub{ final_color };
+        });
+    }
+}
+
+unique_ptr<color4ub[]>
+gfx::internal::convert_to_gl_pixel_format(freetype::bitmap& bitmap) {
+    if(bitmap.pixel_mode() == freetype::gray) {
+        return gray(bitmap);
+    }
+    else throw runtime_error("unsupported pixel mode");
+
+    
 }

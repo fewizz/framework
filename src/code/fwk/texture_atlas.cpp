@@ -3,6 +3,7 @@
 using namespace gfx;
 using namespace std;
 using namespace glm;
+using namespace estd;
 
 pair<index, slot>
 gfx::fixed_slot_container::occupy(uvec2 tex_dim)

@@ -4,7 +4,9 @@
 #include "glm/vec4.hpp"
 
 template<unsigned Dim, class T>
-struct color : glm::vec<Dim, T> {};
+struct color : glm::vec<Dim, T> {
+    using glm::vec<Dim, T>::vec;
+};
 
 template<class T>
 using color1 = color<1, T>;

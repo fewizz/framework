@@ -31,8 +31,7 @@ src_files=\
 'pshinter/pshinter '\
 'psnames/psnames '
 
-${CC} -c \
-	${CCARGS} \
+$CC $CFLAGS -c \
 	`echo ${src_files} | sed 's/[^ ]\+/..\/git\/src\/&.c /g'` \
 	-I../git/include \
 	-I../ \

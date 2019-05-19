@@ -13,6 +13,7 @@
 using namespace std;
 using namespace glfw;
 using namespace gl;
+using namespace fwk;
 
 int main() {
 	window w = {800, 600, "simpletextedit"};
@@ -35,9 +36,17 @@ int main() {
 		)
 	};
 
-	gl::program text_program {
-		fwk::load<gl::vertex_shader>({"src/resources/shaders/passtrough_u_mat4_a_pos2_a_uv.vs"}),
-		fwk::load<gl::fragment_shader>({"src/resources/shaders/passtrough_u_tex2_a_uv.fs"})
+	auto resources_path = filesystem::path{"./"}
+		.parent_path().parent_path()
+		/"src/resources/";
+
+	program text_program {
+		load<vertex_shader>(
+			resources_path/"shaders/passtrough_u_mat4_a_pos2_a_uv.vs"
+		),
+		load<fragment_shader>(
+			resources_path/"shaders/passtrough_u_tex2_a_uv.fs"
+		)
 	};
 
 	gfx::text_drawer drawer {
